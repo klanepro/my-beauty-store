@@ -11,6 +11,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 132,
     image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80",
     short: "Brightening serum with stabilized vitamin C for even-toned glow.",
+    details: "Use morning or night after cleansing. Targets uneven tone and supports visible brightness in 2-4 weeks with consistent use.",
     ingredients: ["Vitamin C", "Ferulic Acid", "Aloe Vera"],
     crueltyFree: true,
     vegan: true
@@ -27,6 +28,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 88,
     image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80",
     short: "Low-foam cleanser that removes impurities without stripping skin.",
+    details: "Designed for daily AM/PM cleansing. Leaves skin fresh and balanced, with a non-tight finish suitable for sensitive routines.",
     ingredients: ["Niacinamide", "Green Tea", "Panthenol"],
     crueltyFree: true,
     vegan: true
@@ -43,6 +45,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 209,
     image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=80",
     short: "Buildable cream blush for a soft, skin-like flush.",
+    details: "Sheer on first swipe, bold with layering. Blends with fingers or brush and pairs well with no-makeup and glam looks.",
     ingredients: ["Jojoba Oil", "Squalane", "Vitamin E"],
     crueltyFree: true,
     vegan: true
@@ -59,6 +62,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 75,
     image: "https://images.unsplash.com/photo-1586495777744-4413f21062fa?auto=format&fit=crop&w=900&q=80",
     short: "Lightweight lip tint with lasting color and non-drying comfort.",
+    details: "Soft-matte color that fades evenly. Ideal for all-day wear with minimal touchups and comfortable hydration.",
     ingredients: ["Hyaluronic Acid", "Shea Butter", "Peptides"],
     crueltyFree: true,
     vegan: false
@@ -75,6 +79,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 301,
     image: "https://images.unsplash.com/photo-1615396899839-c99c121888b0?auto=format&fit=crop&w=900&q=80",
     short: "No white cast, broad-spectrum SPF with hydrating finish.",
+    details: "Daily shield for urban and outdoor routines. Lightweight texture with no chalky residue across a wide range of skin tones.",
     ingredients: ["Zinc Oxide", "Centella", "Glycerin"],
     crueltyFree: true,
     vegan: true
@@ -91,6 +96,7 @@ window.BLOOM_PRODUCTS = [
     reviews: 94,
     image: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=900&q=80",
     short: "Cooling overnight mask to lock moisture and calm stressed skin.",
+    details: "Apply as final PM step. Forms a comfort layer to reduce transepidermal moisture loss and wake up with softer skin.",
     ingredients: ["Ceramides", "Madecassoside", "Hyaluronic Acid"],
     crueltyFree: true,
     vegan: true

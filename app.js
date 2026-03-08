@@ -27,6 +27,14 @@
     updateCartBadge();
   }
 
+  function getOrderRequests() {
+    try {
+      return JSON.parse(localStorage.getItem("bloom_order_requests") || "[]");
+    } catch {
+      return [];
+    }
+  }
+
   function addToCart(productId, qty = 1) {
     const cart = getCart();
     const existing = cart.find((i) => i.productId === productId);
@@ -130,7 +138,8 @@
           (p) =>
             p.name.toLowerCase().includes(qv) ||
             p.short.toLowerCase().includes(qv) ||
-            p.concern.join(" ").toLowerCase().includes(qv)
+            p.concern.join(" ").toLowerCase().includes(qv) ||
+            p.ingredients.join(" ").toLowerCase().includes(qv)
         );
       }
 
@@ -167,6 +176,7 @@
         <p class="meta-row">${p.category} · ${p.skinType.join(", ")}</p>
         <h1>${p.name}</h1>
         <p class="short">${p.short}</p>
+        <p>${p.details || ""}</p>
         <p class="price">${money.format(p.price)}</p>
         <p class="rating">${stars(p.rating)} <span>(${p.reviews} reviews)</span></p>
         <ul class="facts">
@@ -271,7 +281,7 @@
           paymentStatus: "pending-contact",
         };
 
-        const existing = JSON.parse(localStorage.getItem("bloom_order_requests") || "[]");
+        const existing = getOrderRequests();
         existing.push(orderRequest);
         localStorage.setItem("bloom_order_requests", JSON.stringify(existing));
         saveCart([]);
@@ -288,6 +298,85 @@
     render();
   }
 
+  function download(filename, content, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function asCsv(orders) {
+    const headers = [
+      "id",
+      "createdAt",
+      "customerName",
+      "email",
+      "phone",
+      "address",
+      "itemCount",
+      "total",
+      "paymentStatus"
+    ];
+    const rows = orders.map((o) => [
+      o.id,
+      o.createdAt,
+      o.customer?.name || "",
+      o.customer?.email || "",
+      o.customer?.phone || "",
+      (o.customer?.address || "").replace(/\n/g, " "),
+      o.items?.reduce((a, i) => a + (i.qty || 0), 0) || 0,
+      o.totals?.total || 0,
+      o.paymentStatus || ""
+    ]);
+    return [headers, ...rows]
+      .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+  }
+
+  function initOrdersPage() {
+    const mount = document.getElementById("orders-view");
+    if (!mount) return;
+
+    const orders = getOrderRequests().sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
+
+    if (!orders.length) {
+      mount.innerHTML = `<p class="empty">No order requests found yet.</p>`;
+    } else {
+      mount.innerHTML = orders
+        .map(
+          (o) => `<article class="order-box" style="margin-bottom:.75rem">
+            <p><strong>${o.id}</strong> · ${new Date(o.createdAt).toLocaleString()}</p>
+            <p><strong>Customer:</strong> ${o.customer?.name || "-"} (${o.customer?.phone || "-"})</p>
+            <p><strong>Email:</strong> ${o.customer?.email || "-"}</p>
+            <p><strong>Address:</strong> ${o.customer?.address || "-"}</p>
+            <p><strong>Items:</strong> ${(o.items || []).map((i) => `${i.name} x${i.qty}`).join(", ")}</p>
+            <p><strong>Total:</strong> ${money.format(o.totals?.total || 0)} · <strong>Status:</strong> ${o.paymentStatus}</p>
+          </article>`
+        )
+        .join("");
+    }
+
+    const jsonBtn = document.getElementById("export-json");
+    const csvBtn = document.getElementById("export-csv");
+
+    if (jsonBtn) {
+      jsonBtn.addEventListener("click", () => {
+        download(`order-requests-${Date.now()}.json`, JSON.stringify(orders, null, 2), "application/json");
+      });
+    }
+
+    if (csvBtn) {
+      csvBtn.addEventListener("click", () => {
+        download(`order-requests-${Date.now()}.csv`, asCsv(orders), "text/csv;charset=utf-8");
+      });
+    }
+  }
+
   function initYear() {
     document.querySelectorAll("[data-year]").forEach((el) => {
       el.textContent = new Date().getFullYear();
@@ -300,5 +389,6 @@
     initShopPage();
     initProductPage();
     initCartPage();
+    initOrdersPage();
   });
 })();

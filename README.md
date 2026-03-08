@@ -6,6 +6,7 @@ Static multi-page storefront prototype with:
 - Product detail pages
 - Cart management (localStorage)
 - Order request flow (no payment integration)
+- Internal orders desk with JSON/CSV export (`orders.html`)
 
 ## Run locally
 
@@ -15,6 +16,7 @@ Open `index.html` in a browser, or serve with any static server.
 
 - Cart key: `bloom_cart`
 - Order request key: `bloom_order_requests`
+- Internal review/export page: `orders.html`
 - Product seed data lives in `products.js`
 
 ## Next upgrades

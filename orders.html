@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders Desk | Bloom & Glow Beauty</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="container nav-wrap">
+        <a class="logo" href="index.html">Bloom & Glow</a>
+        <nav>
+          <a href="shop.html">Shop</a>
+          <a href="contact.html">Contact</a>
+          <a href="cart.html">Cart (<span data-cart-count>0</span>)</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container section">
+      <h1>Order Requests Desk</h1>
+      <p class="tiny">Internal page for reviewing and exporting order requests captured from cart checkout-intent form.</p>
+      <div class="hero-actions" style="margin-bottom:1rem">
+        <button class="btn small" id="export-json">Export JSON</button>
+        <button class="btn small ghost" id="export-csv">Export CSV</button>
+      </div>
+      <section id="orders-view"></section>
+    </main>
+
+    <footer class="main-footer">
+      <p class="copyright">© <span data-year></span> Bloom & Glow Beauty</p>
+    </footer>
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
