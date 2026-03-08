@@ -10,6 +10,13 @@
     return window.BLOOM_PRODUCTS || [];
   }
 
+  function trackEvent(name, payload = {}) {
+    const event = { event: name, ts: new Date().toISOString(), ...payload };
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(event);
+    window.dispatchEvent(new CustomEvent("bloom:analytics", { detail: event }));
+  }
+
   function getProductById(id) {
     return getProducts().find((p) => p.id === id);
   }
@@ -41,6 +48,8 @@
     if (existing) existing.qty += qty;
     else cart.push({ productId, qty });
     saveCart(cart);
+    const product = getProductById(productId);
+    trackEvent("add_to_cart", { productId, qty, price: product?.price || 0, name: product?.name || "" });
   }
 
   function setCartQty(productId, qty) {
@@ -254,6 +263,7 @@
 
       mount.querySelectorAll("[data-remove]").forEach((btn) => {
         btn.addEventListener("click", () => {
+          trackEvent("remove_from_cart", { productId: btn.dataset.remove });
           removeFromCart(btn.dataset.remove);
           render();
         });
@@ -284,6 +294,12 @@
         const existing = getOrderRequests();
         existing.push(orderRequest);
         localStorage.setItem("bloom_order_requests", JSON.stringify(existing));
+        trackEvent("order_request_submitted", {
+          requestId: orderRequest.id,
+          total: orderRequest.totals.total,
+          items: orderRequest.items.length,
+          email: orderRequest.customer.email,
+        });
         saveCart([]);
 
         mount.innerHTML = `<div class="success-box">
